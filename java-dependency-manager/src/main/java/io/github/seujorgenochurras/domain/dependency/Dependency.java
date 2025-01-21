@@ -3,88 +3,86 @@ package io.github.seujorgenochurras.domain.dependency;
 import java.util.Objects;
 
 public class Dependency {
-   private String groupName;
-   private String artifact;
-   private String version;
+    private String groupName;
+    private String artifact;
+    private String version;
 
-   private DependencyType dependencyType = DependencyType.IMPLEMENTATION;
+    private DependencyType dependencyType = DependencyType.IMPLEMENTATION;
 
-   Dependency() {
-      //only by builder
-   }
+    Dependency() {
+        //only by builder
+    }
 
-   public DependencyType getDependencyType() {
-      return dependencyType;
-   }
+    public DependencyType getDependencyType() {
+        return dependencyType;
+    }
 
-   public Dependency setDependencyType(DependencyType dependencyType) {
-      this.dependencyType = dependencyType;
-      return this;
-   }
+    public Dependency setDependencyType(DependencyType dependencyType) {
+        this.dependencyType = dependencyType;
+        return this;
+    }
 
-   public String getGroupName() {
-      return groupName;
-   }
+    public String getGroupName() {
+        return groupName;
+    }
 
-   public Dependency setGroupName(String groupName) {
-      this.groupName = groupName;
-      return this;
-   }
+    public Dependency setGroupName(String groupName) {
+        this.groupName = groupName;
+        return this;
+    }
 
-   public String getArtifact() {
-      return artifact;
-   }
+    public String getArtifact() {
+        return artifact;
+    }
 
-   public Dependency setArtifact(String artifact) {
-      this.artifact = artifact;
-      return this;
-   }
+    public Dependency setArtifact(String artifact) {
+        this.artifact = artifact;
+        return this;
+    }
 
-   public String getVersion() {
-      return version;
-   }
+    public String getVersion() {
+        return version;
+    }
 
-   public Dependency setVersion(String version) {
-      this.version = version;
-      return this;
-   }
-   public String getRawDeclaration(){
-       String result = this.dependencyType.typeName + "(\"" + groupName + ":" + artifact;
-        if(!Objects.isNull(version)) result+= ":" + version;
+    public Dependency setVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
+    public String getRawDeclaration() {
+        String result = this.dependencyType.typeName + "(\"" + groupName + ":" + artifact;
+        if (!Objects.isNull(version)) result += ":" + version;
         result += "\")";
         return result;
-   }
-   public String getDeclaration(){
-      String declaration = groupName + ":" + artifact;
-      if(version != null) declaration+= ":" + version;
-      return declaration;
-   }
-   @Override
-   public String toString() {
-      return "Dependency{" +
-              "groupName='" + groupName + '\'' +
-              ", artifact='" + artifact + '\'' +
-              ", version='" + version + '\'' +
-              ", dependencyType=" + dependencyType +
-              '}' + "\n";
-   }
+    }
 
-   @Override
-   public boolean equals(Object o) {
-      if (this == o) return true;
-      if (!(o instanceof Dependency that)) return false;
-      return getDependencyType().equals(that.dependencyType) &&
-              getArtifact().equals(that.artifact) &&
-              getVersion().equals(that.version);
-   }
+    public String getDeclaration() {
+        String declaration = groupName + ":" + artifact;
+        if (version != null) declaration += ":" + version;
+        return declaration;
+    }
 
-   @Override
-   public int hashCode() {
-      int result = getGroupName() != null ? getGroupName().hashCode() : 0;
-      result = 31 * result + (getArtifact() != null ? getArtifact().hashCode() : 0);
-      result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
-      result = 31 * result + (getDependencyType() != null ? getDependencyType().hashCode() : 0);
-      return result;
-   }
+    @Override
+    public String toString() {
+        return "Dependency{" + "groupName='" + groupName + '\'' + ", artifact='" + artifact + '\'' + ", version='"
+            + version + '\'' + ", dependencyType=" + dependencyType + '}' + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dependency that)) return false;
+        return getDependencyType().equals(that.dependencyType) && getArtifact().equals(that.artifact) && getVersion()
+            .equals(that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getGroupName() != null ? getGroupName().hashCode() : 0;
+        result = 31 * result + (getArtifact() != null ? getArtifact().hashCode() : 0);
+        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
+        result = 31 * result + (getDependencyType() != null ? getDependencyType().hashCode() : 0);
+        return result;
+    }
 }
 

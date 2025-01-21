@@ -21,39 +21,42 @@ public class JpmCommand implements ICommand {
 
     @Override
     public void invoke(CommandToolBox toolBox) {
-        String libName = toolBox.getCommandArgs().getFlagByName("i").getValueAsString();
+        String libName = toolBox.getCommandArgs()
+            .getFlagByName("i")
+            .getValueAsString();
 
-        CompletableFuture<ArrayList<Dependency>> dependenciesFound = mavenService.async().searchForDependencyAsync(libName);
+        CompletableFuture<ArrayList<Dependency>> dependenciesFound = mavenService.async()
+            .searchForDependencyAsync(libName);
 
-        mavenService.async().stopExecutors();
+        mavenService.async()
+            .stopExecutors();
 
         IDependency dependencyChosen = DependencyCollectionPrompter.startPrompt()
-                .promptDependenciesAsync(dependenciesFound)
-                .getDependencyChosen()
-                .promptVersion()
-                .getResultedDependency();
+            .promptDependenciesAsync(dependenciesFound)
+            .getDependencyChosen()
+            .promptVersion()
+            .getResultedDependency();
 
 
         DependencyManagerFile dependencyManagerFile = toolBox.getDependencyManager();
         dependencyManagerFile.addDependency(DependencyBuilder.startBuild()
-                .group(dependencyChosen.getGroupName())
-                .artifact(dependencyChosen.getArtifactName())
-                .version(dependencyChosen.getVersion())
-                .buildResult());
+            .group(dependencyChosen.getGroupName())
+            .artifact(dependencyChosen.getArtifactName())
+            .version(dependencyChosen.getVersion())
+            .buildResult());
 
         System.out.println("Successfully installed " + dependencyChosen.getFullName());
     }
 
     @Override
     public FlagPatternCollection commandArgsPattern() {
-        return CommandArgumentBuilder
-                .startBuild()
-                .newFlag()
-                .aliases("-i", "--install")
-                .argType(ValidFlagArgumentTypes.STRING)
-                .addFlag()
+        return CommandArgumentBuilder.startBuild()
+            .newFlag()
+            .aliases("-i", "--install")
+            .argType(ValidFlagArgumentTypes.STRING)
+            .addFlag()
 
-                .build();
+            .build();
     }
 
     @Override

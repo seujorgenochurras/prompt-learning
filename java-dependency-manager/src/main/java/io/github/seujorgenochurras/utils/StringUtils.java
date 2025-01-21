@@ -24,17 +24,19 @@ public class StringUtils {
     }
 
     public static int getIndexOfStringWithRegex(String string, String regex) {
-        Matcher matcher = Pattern.compile(regex).matcher(string);
+        Matcher matcher = Pattern.compile(regex)
+            .matcher(string);
         matcher.find();
         return matcher.end();
     }
-    public static String getFirstMatchOfString(String regex, String string){
+
+    public static String getFirstMatchOfString(String regex, String string) {
         Matcher matcher = generateStringMatcherFromRegex(string, regex);
         matcher.find();
 
-        try{
+        try {
             return matcher.group();
-        }catch (IndexOutOfBoundsException | IllegalStateException e){
+        } catch (IndexOutOfBoundsException | IllegalStateException e) {
             return "null";
         }
 
@@ -53,20 +55,22 @@ public class StringUtils {
         return trimmedStringArr;
     }
 
-    public static boolean stringContainsAnyMatchesOf(String regex, String stringToCheck){
+    public static boolean stringContainsAnyMatchesOf(String regex, String stringToCheck) {
         return !getAllMatchesOfMatcher(generateStringMatcherFromRegex(stringToCheck, regex)).isEmpty();
     }
-    public static boolean stringStartsWithRegex(String regex, String stringToCheck){
+
+    public static boolean stringStartsWithRegex(String regex, String stringToCheck) {
         return stringToCheck.startsWith(getFirstMatchOfString(regex, stringToCheck));
     }
 
     /**
      * @param a
      * @param b
-     * @return true if {@code a} happens in {@code b} in order, it just doesn't care about spaces or other letters before or after
+     * @return true if {@code a} happens in {@code b} in order, it just doesn't care about spaces or other letters
+     *         before or after
      */
-    public static boolean weakEquals(String a, String b){
-       b = b.replace(" ", "");
+    public static boolean weakEquals(String a, String b) {
+        b = b.replace(" ", "");
         a = a.replace(" ", "");
         return a.contains(b);
     }

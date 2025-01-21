@@ -39,10 +39,7 @@ public class MapperResponsibilityChain {
 
     @Override
     public String toString() {
-        return "MapperResponsibilityChain{" +
-                "treeMapperPackage=" + treeMapperPackage +
-                ", handlers=" + handlers +
-                ", hasBeenHandled=" + hasBeenHandled +
-                '}';
+        return "MapperResponsibilityChain{" + "treeMapperPackage=" + treeMapperPackage + ", handlers=" + handlers
+            + ", hasBeenHandled=" + hasBeenHandled + '}';
     }
 }

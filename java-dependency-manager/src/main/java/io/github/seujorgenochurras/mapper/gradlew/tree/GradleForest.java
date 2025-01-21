@@ -7,23 +7,24 @@ import java.util.Set;
 
 public record GradleForest(Set<GradleTree> gradleTrees) {
 
-   public GradleTree getTreeByName(String treeName) {
-      return this.gradleTrees.stream()
-              .filter(tree -> tree.getTreeName().trim().equals(treeName))
-              .findFirst()
-              .orElseThrow(() -> new NotFoundException("No tree with name " + treeName + " found"));
-   }
-   public String rawToString(){
-      StringBuilder result = new StringBuilder();
+    public GradleTree getTreeByName(String treeName) {
+        return this.gradleTrees.stream()
+            .filter(tree -> tree.getTreeName()
+                .trim()
+                .equals(treeName))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("No tree with name " + treeName + " found"));
+    }
 
-      this.gradleTrees.forEach(tree -> result.append(tree.getRawString()));
-      return result.toString();
-   }
+    public String rawToString() {
+        StringBuilder result = new StringBuilder();
 
-   @Override
-   public String toString() {
-      return "GradleForest{" +
-              "gradleTrees=" + gradleTrees +
-              '}';
-   }
+        this.gradleTrees.forEach(tree -> result.append(tree.getRawString()));
+        return result.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "GradleForest{" + "gradleTrees=" + gradleTrees + '}';
+    }
 }

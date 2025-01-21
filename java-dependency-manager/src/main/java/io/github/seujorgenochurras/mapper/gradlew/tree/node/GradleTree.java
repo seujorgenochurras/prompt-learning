@@ -27,9 +27,11 @@ public class GradleTree {
     }
 
     public String getTreeName() {
-        return treeName.replace("{", "").replace("}","");
+        return treeName.replace("{", "")
+            .replace("}", "");
     }
-    public String getTreeRawName(){
+
+    public String getTreeRawName() {
         return treeName.concat("{");
     }
 
@@ -39,21 +41,23 @@ public class GradleTree {
 
     @Override
     public String toString() {
-        return "GradleTree{" +
-                "nodes=" + nodes +
-                ", childGradleTrees=" + childGradleTrees +
-                ", groupName='" + treeName + '\'' +
-                '}';
+        return "GradleTree{" + "nodes=" + nodes + ", childGradleTrees=" + childGradleTrees + ", groupName='" + treeName
+            + '\'' + '}';
     }
-    public String getRawString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getTreeRawName()).append("\n");
 
-        nodes.forEach(node -> stringBuilder.append(node.getTextContents()).append("\n"));
+    public String getRawString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getTreeRawName())
+            .append("\n");
+
+        nodes.forEach(node -> stringBuilder.append(node.getTextContents())
+            .append("\n"));
         childGradleTrees.forEach(childTree -> stringBuilder.append(childTree.getRawString()));
 
-        return stringBuilder.toString().concat("}\n");
+        return stringBuilder.toString()
+            .concat("}\n");
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

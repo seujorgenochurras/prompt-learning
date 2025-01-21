@@ -13,56 +13,59 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class CommandConsole extends ConsolePrompt {
-   private static final Logger logger = Logger.getLogger(CommandConsole.class.getName());
+    private static final Logger logger = Logger.getLogger(CommandConsole.class.getName());
 
-   public ConsolePromptAnswer prompt(CommandConsoleBuilder builder) {
-      return new ConsolePromptAnswer(prompt(builder.build()));
-   }
+    public ConsolePromptAnswer prompt(CommandConsoleBuilder builder) {
+        return new ConsolePromptAnswer(prompt(builder.build()));
+    }
 
-   @Override
-   public HashMap<String, ? extends PromtResultItemIF> prompt(List<PromptableElementIF> promptableElementList) {
-      try {
-         return super.prompt(promptableElementList);
-      } catch (IOException e) {
-         logger.severe("Something went terrible wrong when prompting");
-         e.printStackTrace();
-         Thread.currentThread().interrupt();
-         return new HashMap<>();
-      }
-   }
+    @Override
+    public HashMap<String, ? extends PromtResultItemIF> prompt(List<PromptableElementIF> promptableElementList) {
+        try {
+            return super.prompt(promptableElementList);
+        } catch (IOException e) {
+            logger.severe("Something went terrible wrong when prompting");
+            e.printStackTrace();
+            Thread.currentThread()
+                .interrupt();
+            return new HashMap<>();
+        }
+    }
 
-   public PreConsoleListBuilder addNewListPrompt() {
-      return new PreConsoleListBuilder();
-   }
+    public PreConsoleListBuilder addNewListPrompt() {
+        return new PreConsoleListBuilder();
+    }
 
-   public ConsoleConfirmBuilder addNewConfirmBuilder(){
-      return new ConsoleConfirmBuilder();
-   }
+    public ConsoleConfirmBuilder addNewConfirmBuilder() {
+        return new ConsoleConfirmBuilder();
+    }
 
 
-   public static final class PreConsoleListBuilder {
-      public ConsoleListBuilder message(String message) {
-         return new ConsoleListBuilder(message);
-      }
-   }
+    public static final class PreConsoleListBuilder {
+        public ConsoleListBuilder message(String message) {
+            return new ConsoleListBuilder(message);
+        }
+    }
 
-   public static final class ConsolePromptAnswer {
-      private final HashMap<String, ? extends PromtResultItemIF> rawResult;
+    public static final class ConsolePromptAnswer {
+        private final HashMap<String, ? extends PromtResultItemIF> rawResult;
 
-      public ConsolePromptAnswer(HashMap<String, ? extends PromtResultItemIF> rawResult) {
-         this.rawResult = rawResult;
-      }
+        public ConsolePromptAnswer(HashMap<String, ? extends PromtResultItemIF> rawResult) {
+            this.rawResult = rawResult;
+        }
 
-      public String getResult() {
-         return removeGarbageFromRawResult();
-      }
+        public String getResult() {
+            return removeGarbageFromRawResult();
+        }
 
-      private String removeGarbageFromRawResult(){
-         String onlyResultString = rawResult.toString().split("=")[2];
-         return onlyResultString.replaceAll("[}']", "");
-      }
-      public boolean getResultAsBoolean(){
-        return getResult().equals("YES");
-      }
-   }
+        private String removeGarbageFromRawResult() {
+            String onlyResultString = rawResult.toString()
+                .split("=")[2];
+            return onlyResultString.replaceAll("[}']", "");
+        }
+
+        public boolean getResultAsBoolean() {
+            return getResult().equals("YES");
+        }
+    }
 }

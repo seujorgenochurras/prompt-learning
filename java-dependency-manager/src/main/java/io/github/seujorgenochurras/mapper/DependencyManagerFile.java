@@ -6,18 +6,18 @@ import io.github.seujorgenochurras.domain.dependency.Dependency;
 import java.util.List;
 
 public interface DependencyManagerFile {
-   void addDependency(Dependency dependency);
+    void addDependency(Dependency dependency);
 
-   <T extends Plugin> void addPlugin(T plugin);
+    <T extends Plugin> void addPlugin(T plugin);
 
-   List<? extends Plugin> getPlugins();
+    List<? extends Plugin> getPlugins();
 
-   List<Dependency> getDependencies();
+    List<Dependency> getDependencies();
 
-   void removeDependency(Dependency dependency);
+    void removeDependency(Dependency dependency);
 
-   void commentDependency(Dependency dependency);
+    void commentDependency(Dependency dependency);
 
-   <T extends Plugin> void removePlugin(T plugin);
+    <T extends Plugin> void removePlugin(T plugin);
 
 }

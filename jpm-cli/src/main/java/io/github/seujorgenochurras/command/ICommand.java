@@ -6,14 +6,14 @@ import io.github.seujorgenochurras.command.toolbox.CommandToolBox;
 
 public interface ICommand {
 
-   String[] getNames();
+    String[] getNames();
 
-   void invoke(CommandToolBox toolBox);
+    void invoke(CommandToolBox toolBox);
 
-   FlagPatternCollection commandArgsPattern();
+    FlagPatternCollection commandArgsPattern();
 
-   default FlagFormatter flagFormatter() {
-      return new FlagFormatter(this.commandArgsPattern());
-   }
+    default FlagFormatter flagFormatter() {
+        return new FlagFormatter(this.commandArgsPattern());
+    }
 
 }

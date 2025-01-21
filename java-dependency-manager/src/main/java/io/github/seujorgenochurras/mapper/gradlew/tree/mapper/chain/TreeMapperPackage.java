@@ -8,77 +8,75 @@ import java.util.List;
 import java.util.Set;
 
 public class TreeMapperPackage {
-   private final Set<GradleTree> gradleTreesFound = new LinkedHashSet<>();
-   private final List<GradleTree> previousGradleTree = new ArrayList<>();
-   private Integer openCurlyBracesCount = 0;
-   private String line;
-   private GradleTree currentGradleTree;
+    private final Set<GradleTree> gradleTreesFound = new LinkedHashSet<>();
+    private final List<GradleTree> previousGradleTree = new ArrayList<>();
+    private Integer openCurlyBracesCount = 0;
+    private String line;
+    private GradleTree currentGradleTree;
 
-   public boolean isInsideTree() {
-      return openCurlyBracesCount > 1;
-   }
+    public boolean isInsideTree() {
+        return openCurlyBracesCount > 1;
+    }
 
-   public boolean isMappingTree() {
-      return openCurlyBracesCount > 0;
-   }
-
-
-   public GradleTree getCurrentGradleTree() {
-      return currentGradleTree;
-   }
-
-   public void setCurrentGradleTree(GradleTree currentGradleTree) {
-      this.currentGradleTree = currentGradleTree;
-   }
+    public boolean isMappingTree() {
+        return openCurlyBracesCount > 0;
+    }
 
 
-   public void appendCurrentTreeToFatherTree() {
-      if (openCurlyBracesCount <= 1) return;
+    public GradleTree getCurrentGradleTree() {
+        return currentGradleTree;
+    }
 
-      GradleTree fatherNodeGroup = previousGradleTree.get(openCurlyBracesCount - 2);
-      if (!fatherNodeGroup.equals(getCurrentGradleTree())) {
-         fatherNodeGroup.appendNodeGroup(getCurrentGradleTree());
-      }
-   }
+    public void setCurrentGradleTree(GradleTree currentGradleTree) {
+        this.currentGradleTree = currentGradleTree;
+    }
 
-   public void setLine(String line){
-      this.line = line;
-   }
 
-   public String getLine() {
-      return line;
-   }
+    public void appendCurrentTreeToFatherTree() {
+        if (openCurlyBracesCount <= 1) return;
 
-   public void incrementOpenCurlyBracesCount() {
-      openCurlyBracesCount++;
-   }
+        GradleTree fatherNodeGroup = previousGradleTree.get(openCurlyBracesCount - 2);
+        if (!fatherNodeGroup.equals(getCurrentGradleTree())) {
+            fatherNodeGroup.appendNodeGroup(getCurrentGradleTree());
+        }
+    }
 
-   public void decrementOpenCurlyBracesCount() {
-      openCurlyBracesCount--;
-   }
+    public void setLine(String line) {
+        this.line = line;
+    }
 
-   public void removeLastNodeGroupFromPreviousNodeGroups() {
-      this.getPreviousGradleTree().remove(openCurlyBracesCount.intValue());
-   }
+    public String getLine() {
+        return line;
+    }
 
-   public List<GradleTree> getPreviousGradleTree() {
-      return previousGradleTree;
-   }
+    public void incrementOpenCurlyBracesCount() {
+        openCurlyBracesCount++;
+    }
 
-   public void addToPreviousTrees(GradleTree group) {
-      this.previousGradleTree.add(group);
-   }
+    public void decrementOpenCurlyBracesCount() {
+        openCurlyBracesCount--;
+    }
 
-   public Set<GradleTree> getGradleTreesFound() {
-      return gradleTreesFound;
-   }
+    public void removeLastNodeGroupFromPreviousNodeGroups() {
+        this.getPreviousGradleTree()
+            .remove(openCurlyBracesCount.intValue());
+    }
 
-   @Override
-   public String toString() {
-      return "TreeMapperPackage{" +
-              ", groupsFound=" + gradleTreesFound +
-              ", openCurlyBracesCount=" + openCurlyBracesCount +
-              ", previousNodeGroups=" + previousGradleTree +
-              '}' + "\n";
-   }
+    public List<GradleTree> getPreviousGradleTree() {
+        return previousGradleTree;
+    }
+
+    public void addToPreviousTrees(GradleTree group) {
+        this.previousGradleTree.add(group);
+    }
+
+    public Set<GradleTree> getGradleTreesFound() {
+        return gradleTreesFound;
+    }
+
+    @Override
+    public String toString() {
+        return "TreeMapperPackage{" + ", groupsFound=" + gradleTreesFound + ", openCurlyBracesCount="
+            + openCurlyBracesCount + ", previousNodeGroups=" + previousGradleTree + '}' + "\n";
+    }
 }

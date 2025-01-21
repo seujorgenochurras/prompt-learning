@@ -6,12 +6,13 @@ import io.github.seujorgenochurras.command.ICommand;
 import java.util.*;
 
 public class CommandRegister {
-   private CommandRegister(){}
+    private CommandRegister() {
+    }
 
-   public static final HashMap<String, ICommand> COMMANDS = new HashMap<>();
+    public static final HashMap<String, ICommand> COMMANDS = new HashMap<>();
 
-   static {
-      COMMANDS.put( "jpm", new JpmCommand());
-   }
+    static {
+        COMMANDS.put("jpm", new JpmCommand());
+    }
 
 }

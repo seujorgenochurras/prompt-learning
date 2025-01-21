@@ -9,53 +9,53 @@ import java.util.function.Supplier;
 
 public class FileSearcher {
 
-   private final String searchPath;
-   private final List<String> filesNameToSearch = new ArrayList<>();
-   private Supplier<? extends RuntimeException> notFoundSupplier = () -> new NoSuchElementException("File not found");
+    private final String searchPath;
+    private final List<String> filesNameToSearch = new ArrayList<>();
+    private Supplier<? extends RuntimeException> notFoundSupplier = () -> new NoSuchElementException("File not found");
 
-   public FileSearcher(String searchPath) {
-      this.searchPath = searchPath;
-   }
+    public FileSearcher(String searchPath) {
+        this.searchPath = searchPath;
+    }
 
-   public static FileSearcher searchForFileIn(String fileName, String searchPath) {
-      FileSearcher fileSearcher = new FileSearcher(searchPath);
-      return fileSearcher.addFileToSearch(fileName);
-   }
+    public static FileSearcher searchForFileIn(String fileName, String searchPath) {
+        FileSearcher fileSearcher = new FileSearcher(searchPath);
+        return fileSearcher.addFileToSearch(fileName);
+    }
 
-   private FileSearcher addFileToSearch(String fileName) {
-      this.filesNameToSearch.add(this.searchPath + fileName);
-      return this;
-   }
+    private FileSearcher addFileToSearch(String fileName) {
+        this.filesNameToSearch.add(this.searchPath + fileName);
+        return this;
+    }
 
-   public FileSearcher ifNotFoundSearchFor(String fileName) {
-      return addFileToSearch(fileName);
-   }
+    public FileSearcher ifNotFoundSearchFor(String fileName) {
+        return addFileToSearch(fileName);
+    }
 
 
-   private File searchFile(String fileNameAndPath) {
-      File fileFound = new File(fileNameAndPath);
-      if (!fileFound.exists()) return null;
-      return fileFound;
-   }
+    private File searchFile(String fileNameAndPath) {
+        File fileFound = new File(fileNameAndPath);
+        if (!fileFound.exists()) return null;
+        return fileFound;
+    }
 
-   public File getSearchResult() {
+    public File getSearchResult() {
 
-      File fileFound = null;
+        File fileFound = null;
 
-      for (String fileNameAndPath : filesNameToSearch) {
-         if (!Objects.isNull(fileFound)) break;
-         fileFound = searchFile(fileNameAndPath);
-      }
+        for (String fileNameAndPath : filesNameToSearch) {
+            if (!Objects.isNull(fileFound)) break;
+            fileFound = searchFile(fileNameAndPath);
+        }
 
-      if (Objects.isNull(fileFound)) {
-         throw this.notFoundSupplier.get();
-      }
+        if (Objects.isNull(fileFound)) {
+            throw this.notFoundSupplier.get();
+        }
 
-      return fileFound;
-   }
+        return fileFound;
+    }
 
-   public <T extends RuntimeException> FileSearcher ifNotFoundThrow(Supplier<T> notFoundSupplier) {
-      this.notFoundSupplier = notFoundSupplier;
-      return this;
-   }
+    public <T extends RuntimeException> FileSearcher ifNotFoundThrow(Supplier<T> notFoundSupplier) {
+        this.notFoundSupplier = notFoundSupplier;
+        return this;
+    }
 }

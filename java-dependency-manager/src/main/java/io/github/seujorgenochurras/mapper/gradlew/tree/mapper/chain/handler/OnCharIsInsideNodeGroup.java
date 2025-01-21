@@ -6,12 +6,14 @@ import io.github.seujorgenochurras.mapper.gradlew.tree.mapper.chain.TreeMapperPa
 import io.github.seujorgenochurras.mapper.gradlew.tree.node.GradleNode;
 
 public class OnCharIsInsideNodeGroup implements GradleTreeMapperChainHandler {
-   @Override
-   public void handle(MapperResponsibilityChain currentChain) {
-      if (currentChain.getTreeMapperPackage().isMappingTree()) {
+    @Override
+    public void handle(MapperResponsibilityChain currentChain) {
+        if (currentChain.getTreeMapperPackage()
+            .isMappingTree()) {
 
-         TreeMapperPackage treeMapperPackage = currentChain.getTreeMapperPackage();
-         treeMapperPackage.getCurrentGradleTree().addNode(new GradleNode(treeMapperPackage.getLine()));
-      }
-   }
+            TreeMapperPackage treeMapperPackage = currentChain.getTreeMapperPackage();
+            treeMapperPackage.getCurrentGradleTree()
+                .addNode(new GradleNode(treeMapperPackage.getLine()));
+        }
+    }
 }

@@ -11,15 +11,13 @@ public class GradleNode {
         this.textContents = textContents;
     }
 
-    public GradleNode(String textContents ) {
+    public GradleNode(String textContents) {
         this.textContents = textContents;
     }
 
     @Override
     public String toString() {
-        return "GradleNode{" +
-                "textContents='" + textContents + '\'' +
-                '}';
+        return "GradleNode{" + "textContents='" + textContents + '\'' + '}';
     }
 
     @Override
@@ -27,7 +25,8 @@ public class GradleNode {
         if (this == o) return true;
         if (!(o instanceof GradleNode that)) return false;
 
-        return getTextContents() != null ? getTextContents().equals(that.getTextContents()) : that.getTextContents() == null;
+        return getTextContents() != null ? getTextContents().equals(that.getTextContents()) : that.getTextContents()
+            == null;
     }
 
     @Override

@@ -36,11 +36,12 @@ public class GradleForestFileMapper implements GradleForestMapper {
         TreeMapperPackage treeMapperPackage = new TreeMapperPackage();
 
         MapperResponsibilityChain packageResponsibilityChain = MapperResponsibilityChain.startChain()
-                .addHandler(new OnCharIsOpenCurlyBraces())
-                .addHandler(new OnCharIsCloseCurlyBraces())
-                .addHandler(new OnCharIsInsideNodeGroup());
+            .addHandler(new OnCharIsOpenCurlyBraces())
+            .addHandler(new OnCharIsCloseCurlyBraces())
+            .addHandler(new OnCharIsInsideNodeGroup());
 
-        for (String line : fileToMapContents.lines().toList()) {
+        for (String line : fileToMapContents.lines()
+            .toList()) {
             treeMapperPackage.setLine(line);
             packageResponsibilityChain.handlePackage(treeMapperPackage);
         }

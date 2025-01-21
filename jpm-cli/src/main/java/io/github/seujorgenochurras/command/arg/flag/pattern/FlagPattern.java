@@ -5,35 +5,35 @@ import io.github.seujorgenochurras.command.arg.flag.ValidFlagArgumentTypes;
 import java.util.Set;
 
 public class FlagPattern {
-   private Set<String> aliases;
-   private ValidFlagArgumentTypes flagArgumentType = ValidFlagArgumentTypes.BOOLEAN;
+    private Set<String> aliases;
+    private ValidFlagArgumentTypes flagArgumentType = ValidFlagArgumentTypes.BOOLEAN;
 
-   private boolean isRequired = false;
+    private boolean isRequired = false;
 
-   public Set<String> getAliases() {
-      return aliases;
-   }
+    public Set<String> getAliases() {
+        return aliases;
+    }
 
-   public FlagPattern setAliases(Set<String> aliases) {
-      this.aliases = aliases;
-      return this;
-   }
+    public FlagPattern setAliases(Set<String> aliases) {
+        this.aliases = aliases;
+        return this;
+    }
 
-   public boolean isRequired() {
-      return isRequired;
-   }
+    public boolean isRequired() {
+        return isRequired;
+    }
 
-   public FlagPattern setRequired(boolean required) {
-      isRequired = required;
-      return this;
-   }
+    public FlagPattern setRequired(boolean required) {
+        isRequired = required;
+        return this;
+    }
 
-   public ValidFlagArgumentTypes getFlagArgumentType() {
-      return flagArgumentType;
-   }
+    public ValidFlagArgumentTypes getFlagArgumentType() {
+        return flagArgumentType;
+    }
 
-   public FlagPattern setFlagArgumentType(ValidFlagArgumentTypes flagArgumentType) {
-      this.flagArgumentType = flagArgumentType;
-      return this;
-   }
+    public FlagPattern setFlagArgumentType(ValidFlagArgumentTypes flagArgumentType) {
+        this.flagArgumentType = flagArgumentType;
+        return this;
+    }
 }

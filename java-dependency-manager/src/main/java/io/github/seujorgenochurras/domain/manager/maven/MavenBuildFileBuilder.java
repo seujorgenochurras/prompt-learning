@@ -8,34 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MavenBuildFileBuilder {
-   private File rootFile;
-   private List<Dependency> dependencies = new ArrayList<>();
-   private List<Plugin> plugins = new ArrayList<>();
-   private MavenBuildFileBuilder() {
-   }
+    private File rootFile;
+    private List<Dependency> dependencies = new ArrayList<>();
+    private List<Plugin> plugins = new ArrayList<>();
 
-   public static MavenBuildFileBuilder startBuild() {
-      return new MavenBuildFileBuilder();
-   }
+    private MavenBuildFileBuilder() {
+    }
 
-   public MavenBuildFileBuilder rootFile(File rootFile) {
-      this.rootFile = rootFile;
-      return this;
-   }
+    public static MavenBuildFileBuilder startBuild() {
+        return new MavenBuildFileBuilder();
+    }
 
-   public MavenBuildFile getBuildResult() {
-      return new MavenBuildFile(rootFile)
-              .setDependencies(dependencies)
-              .setPlugins(plugins);
-   }
+    public MavenBuildFileBuilder rootFile(File rootFile) {
+        this.rootFile = rootFile;
+        return this;
+    }
 
-   public MavenBuildFileBuilder dependencies(List<Dependency> dependencies) {
-      this.dependencies = dependencies;
-      return this;
-   }
+    public MavenBuildFile getBuildResult() {
+        return new MavenBuildFile(rootFile).setDependencies(dependencies)
+            .setPlugins(plugins);
+    }
 
-   public MavenBuildFileBuilder plugins(List<Plugin> plugins) {
-      this.plugins = plugins;
-      return this;
-   }
+    public MavenBuildFileBuilder dependencies(List<Dependency> dependencies) {
+        this.dependencies = dependencies;
+        return this;
+    }
+
+    public MavenBuildFileBuilder plugins(List<Plugin> plugins) {
+        this.plugins = plugins;
+        return this;
+    }
 }

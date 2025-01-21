@@ -24,80 +24,80 @@ import java.util.logging.Logger;
 
 public class MavenPomMapper extends DependencyMapper {
 
-   private static final Logger logger = Logger.getLogger(MavenPomMapper.class.getName());
-   private Document pomFileDocument;
-   private List<Dependency> dependencies = new ArrayList<>();
-   private final List<Plugin> plugins = new ArrayList<>();
+    private static final Logger logger = Logger.getLogger(MavenPomMapper.class.getName());
+    private Document pomFileDocument;
+    private List<Dependency> dependencies = new ArrayList<>();
+    private final List<Plugin> plugins = new ArrayList<>();
 
-   public MavenPomMapper(File rootFile) {
-      super(rootFile);
-   }
+    public MavenPomMapper(File rootFile) {
+        super(rootFile);
+    }
 
-   @Override
-   protected DependencyManagerFile map() {
-      tryInitPomFileDocument();
-      mapDependencies();
-      mapPlugins();
+    @Override
+    protected DependencyManagerFile map() {
+        tryInitPomFileDocument();
+        mapDependencies();
+        mapPlugins();
 
-      return MavenBuildFileBuilder.startBuild()
-              .rootFile(rootFile)
-              .dependencies(dependencies)
-              .plugins(plugins)
-              .getBuildResult();
-   }
+        return MavenBuildFileBuilder.startBuild()
+            .rootFile(rootFile)
+            .dependencies(dependencies)
+            .plugins(plugins)
+            .getBuildResult();
+    }
 
-   @Override
-   protected void mapDependencies() {
-      this.dependencies = getMavenFileDependencies();
-   }
+    @Override
+    protected void mapDependencies() {
+        this.dependencies = getMavenFileDependencies();
+    }
 
-   @Override
-   protected void mapPlugins() {
-      //TODO
-   }
+    @Override
+    protected void mapPlugins() {
+        //TODO
+    }
 
-   private List<Dependency> getMavenFileDependencies() {
-      BetterNodeList dependencyNodeList = new BetterNodeList(getDependencyNodeList());
-      List<Dependency> dependenciesFound = new ArrayList<>();
+    private List<Dependency> getMavenFileDependencies() {
+        BetterNodeList dependencyNodeList = new BetterNodeList(getDependencyNodeList());
+        List<Dependency> dependenciesFound = new ArrayList<>();
 
-      dependencyNodeList.forEachChild(childNode -> {
-         BetterNodeList childNodes = new BetterNodeList(childNode.getChildNodes());
-         String artifact = childNodes.getChildNodeByName("artifactId").getTextContent();
-         String groupName = childNodes.getChildNodeByName("groupId").getTextContent();
-         String version;
-         Node versionNode = childNodes.getChildNodeByName("version");
-         if (versionNode == null) version = "";
-         else version = versionNode.getTextContent();
+        dependencyNodeList.forEachChild(childNode -> {
+            BetterNodeList childNodes = new BetterNodeList(childNode.getChildNodes());
+            String artifact = childNodes.getChildNodeByName("artifactId")
+                .getTextContent();
+            String groupName = childNodes.getChildNodeByName("groupId")
+                .getTextContent();
+            String version;
+            Node versionNode = childNodes.getChildNodeByName("version");
+            if (versionNode == null) version = "";
+            else version = versionNode.getTextContent();
 
-         dependenciesFound.add(DependencyBuilder
-                 .startBuild()
-                 .artifact(artifact)
-                 .group(groupName)
-                 .version(version)
-                 .buildResult());
+            dependenciesFound.add(DependencyBuilder.startBuild()
+                .artifact(artifact)
+                .group(groupName)
+                .version(version)
+                .buildResult());
 
-      });
-      return dependenciesFound;
-   }
+        });
+        return dependenciesFound;
+    }
 
-   private NodeList getDependencyNodeList() {
-      return this.pomFileDocument.getElementsByTagName("dependency");
-   }
+    private NodeList getDependencyNodeList() {
+        return this.pomFileDocument.getElementsByTagName("dependency");
+    }
 
-   private void tryInitPomFileDocument() {
-      try {
-         initPomFileDocument();
-      } catch (ParserConfigurationException | IOException | SAXException e) {
-         logger.severe(e.getMessage());
-         e.printStackTrace();
-      }
-   }
+    private void tryInitPomFileDocument() {
+        try {
+            initPomFileDocument();
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            logger.severe(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-   private void initPomFileDocument() throws ParserConfigurationException, IOException, SAXException {
-      DocumentBuilder documentBuilder = DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder();
-      this.pomFileDocument = documentBuilder.parse(rootFile);
-   }
+    private void initPomFileDocument() throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newDefaultInstance()
+            .newDocumentBuilder();
+        this.pomFileDocument = documentBuilder.parse(rootFile);
+    }
 }
-
-
 

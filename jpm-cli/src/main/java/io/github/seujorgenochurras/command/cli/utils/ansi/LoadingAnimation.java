@@ -40,11 +40,7 @@ public class LoadingAnimation {
     }
 
     private static final class LoadingAnimationStage {
-        private static final String[] animationStages = {
-                "⠁", "⠃", "⠇",
-                "⠦", "⠴", "⠸",
-                "⠙", "⠉"
-        };
+        private static final String[] animationStages = {"⠁", "⠃", "⠇", "⠦", "⠴", "⠸", "⠙", "⠉"};
         private int currentStageIndex = 0;
 
         String getCurrentStage() {

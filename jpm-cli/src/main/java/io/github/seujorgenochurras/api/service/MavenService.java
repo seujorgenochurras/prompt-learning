@@ -37,11 +37,8 @@ public class MavenService {
     }
 
     public ArrayList<Dependency> searchForDependency(String dependencyName, int maximumNumberOfResults) {
-        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString("" +
-                "{\"page\": 0," +
-                "\"size\":" + maximumNumberOfResults + "," +
-                "\"searchTerm\": \"" + dependencyName + "\"," +
-                "\"filter\":[]}");
+        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString("" + "{\"page\": 0," + "\"size\":"
+            + maximumNumberOfResults + "," + "\"searchTerm\": \"" + dependencyName + "\"," + "\"filter\":[]}");
 
         Gson gson = new Gson();
         HttpResponse<String> response = RequestUtils.makePostRequestTo(SONATYPE_API_INTERNAL, bodyPublisher);
@@ -53,11 +50,8 @@ public class MavenService {
     }
 
     public List<Dependency> searchVersionsOf(IDependency dependency) {
-        String requestUri = MAVEN_DOMAIN + "select?q=g:"
-                + dependency.getGroupName()
-                + "+AND+" + "a:"
-                + dependency.getArtifactName()
-                + "&core=gav";
+        String requestUri = MAVEN_DOMAIN + "select?q=g:" + dependency.getGroupName() + "+AND+" + "a:" + dependency
+            .getArtifactName() + "&core=gav";
 
         HttpResponse<String> response = RequestUtils.makeGetRequestTo(requestUri);
 

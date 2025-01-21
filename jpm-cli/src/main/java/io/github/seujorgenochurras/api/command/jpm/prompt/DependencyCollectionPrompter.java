@@ -26,23 +26,20 @@ public class DependencyCollectionPrompter {
         return new DependencyCollectionPrompter();
     }
 
-    public <T extends Collection<? extends IDependency>> DependencyCollectionPrompter promptDependenciesAsync(
-            CompletableFuture<T> completableDependencies) {
+    public <T extends Collection<? extends IDependency>> DependencyCollectionPrompter promptDependenciesAsync(CompletableFuture<T> completableDependencies) {
 
         System.out.println("Found ... dependencies\n");
         LoadingAnimation.startAnimation(135);
 
 
         T dependenciesFound = tryGetCompletableFuture(completableDependencies);
-        ConsoleListBuilder listBuilder = console
-                .addNewListPrompt()
-                .message("Found " + dependenciesFound.size() + " dependencies")
-                .pageSize(5);
+        ConsoleListBuilder listBuilder = console.addNewListPrompt()
+            .message("Found " + dependenciesFound.size() + " dependencies")
+            .pageSize(5);
 
-        dependenciesFound.forEach(dependencyFound ->
-                listBuilder.newItem()
-                        .name(dependencyFound.getFullName())
-                        .add());
+        dependenciesFound.forEach(dependencyFound -> listBuilder.newItem()
+            .name(dependencyFound.getFullName())
+            .add());
 
         DependencyService dependencyService = new DependencyService(dependenciesFound);
 

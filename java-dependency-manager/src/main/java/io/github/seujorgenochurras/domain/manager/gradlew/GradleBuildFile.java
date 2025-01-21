@@ -15,106 +15,101 @@ import java.util.List;
 import static io.github.seujorgenochurras.utils.StringUtils.weakEquals;
 
 public class GradleBuildFile implements DependencyManagerFile {
-   private GradleForest gradleForest;
-   private List<Dependency> dependencies;
-   private List<Plugin> plugins;
-   private File originFile;
-   private GradleTree dependenciesTree;
-   private GradleTree pluginsTree;
+    private GradleForest gradleForest;
+    private List<Dependency> dependencies;
+    private List<Plugin> plugins;
+    private File originFile;
+    private GradleTree dependenciesTree;
+    private GradleTree pluginsTree;
 
-   public void setOriginFile(File originFile) {
-      this.originFile = originFile;
-   }
+    public void setOriginFile(File originFile) {
+        this.originFile = originFile;
+    }
 
-   @Override
-   public List<? extends Plugin> getPlugins() {
-      return plugins;
-   }
+    @Override
+    public List<? extends Plugin> getPlugins() {
+        return plugins;
+    }
 
-   public GradleBuildFile setPlugins(List<Plugin> plugins) {
-      this.plugins = plugins;
-      return this;
-   }
+    public GradleBuildFile setPlugins(List<Plugin> plugins) {
+        this.plugins = plugins;
+        return this;
+    }
 
-   @Override
-   public List<Dependency> getDependencies() {
-      return dependencies;
-   }
+    @Override
+    public List<Dependency> getDependencies() {
+        return dependencies;
+    }
 
-   public GradleBuildFile setDependencies(List<Dependency> dependencies) {
-      this.dependencies = dependencies;
-      return this;
-   }
+    public GradleBuildFile setDependencies(List<Dependency> dependencies) {
+        this.dependencies = dependencies;
+        return this;
+    }
 
-   @Override
-   public void addDependency(Dependency dependency) {
-      String declaration = dependency.getDependencyType().typeName + " (\""
-              + dependency.getGroupName().trim()
-              + ":"
-              + dependency.getArtifact().trim()
-              + ":"
-              + dependency.getVersion().trim()
-              + "\")";
+    @Override
+    public void addDependency(Dependency dependency) {
+        String declaration = dependency.getDependencyType().typeName + " (\"" + dependency.getGroupName()
+            .trim() + ":" + dependency.getArtifact()
+                .trim() + ":" + dependency.getVersion()
+                    .trim() + "\")";
 
-      dependenciesTree.addNode(new GradleNode(declaration));
-      GradleForestTransformer.transform(gradleForest, originFile);
-      this.dependencies.add(dependency);
-   }
+        dependenciesTree.addNode(new GradleNode(declaration));
+        GradleForestTransformer.transform(gradleForest, originFile);
+        this.dependencies.add(dependency);
+    }
 
 
-   @Override
-   public <T extends Plugin> void addPlugin(T plugin) {
-      String declaration = "id '" + plugin.getId().trim() + "'\n";
+    @Override
+    public <T extends Plugin> void addPlugin(T plugin) {
+        String declaration = "id '" + plugin.getId()
+            .trim() + "'\n";
 
-      pluginsTree.addNode(new GradleNode(declaration));
+        pluginsTree.addNode(new GradleNode(declaration));
 
-      GradleForestTransformer.transform(gradleForest, originFile);
-      this.plugins.add(plugin);
-   }
+        GradleForestTransformer.transform(gradleForest, originFile);
+        this.plugins.add(plugin);
+    }
 
-   @Override
-   public void removeDependency(Dependency dependency) {
-      List<GradleNode> dependenciesNode = dependenciesTree.getNodes();
-      String dependencyDeclaration = dependency.getDeclaration();
+    @Override
+    public void removeDependency(Dependency dependency) {
+        List<GradleNode> dependenciesNode = dependenciesTree.getNodes();
+        String dependencyDeclaration = dependency.getDeclaration();
 
-      dependenciesNode.remove(dependenciesNode.stream()
-              .filter(node -> weakEquals(node.getTextContents(), dependencyDeclaration))
-              .findFirst()
-              .orElseThrow(() -> new NotFoundException("Dependency :'" + dependency.getDeclaration() + "' not found")));
+        dependenciesNode.remove(dependenciesNode.stream()
+            .filter(node -> weakEquals(node.getTextContents(), dependencyDeclaration))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("Dependency :'" + dependency.getDeclaration() + "' not found")));
 
-      this.dependencies.remove(dependency);
-      GradleForestTransformer.transform(gradleForest, originFile);
-   }
+        this.dependencies.remove(dependency);
+        GradleForestTransformer.transform(gradleForest, originFile);
+    }
 
 
-   @Override
-   public <T extends Plugin> void removePlugin(T plugin) {
-      //Fuck you
-   }
+    @Override
+    public <T extends Plugin> void removePlugin(T plugin) {
+        //Fuck you
+    }
 
-   @Override
-   public void commentDependency(Dependency dependency) {
-      List<GradleNode> dependenciesNode = dependenciesTree.getNodes();
-      String dependencyDeclaration = dependency.getDeclaration();
-      dependenciesNode.remove(dependenciesNode.stream()
-              .filter(node -> weakEquals(node.getTextContents(), dependencyDeclaration))
-              .findFirst()
-              .orElseThrow(() -> new NotFoundException("Dependency not found")));
+    @Override
+    public void commentDependency(Dependency dependency) {
+        List<GradleNode> dependenciesNode = dependenciesTree.getNodes();
+        String dependencyDeclaration = dependency.getDeclaration();
+        dependenciesNode.remove(dependenciesNode.stream()
+            .filter(node -> weakEquals(node.getTextContents(), dependencyDeclaration))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("Dependency not found")));
 
-   }
+    }
 
-   @Override
-   public String toString() {
-      return "GradleBuildFile{" +
-              "plugins=" + plugins +
-              ", dependencies=" + dependencies +
-              '}';
-   }
+    @Override
+    public String toString() {
+        return "GradleBuildFile{" + "plugins=" + plugins + ", dependencies=" + dependencies + '}';
+    }
 
-   public GradleBuildFile setGradleForest(GradleForest gradleForest) {
-      this.gradleForest = gradleForest;
-      this.pluginsTree = gradleForest.getTreeByName("plugins");
-      this.dependenciesTree = gradleForest.getTreeByName("dependencies");
-      return this;
-   }
+    public GradleBuildFile setGradleForest(GradleForest gradleForest) {
+        this.gradleForest = gradleForest;
+        this.pluginsTree = gradleForest.getTreeByName("plugins");
+        this.dependenciesTree = gradleForest.getTreeByName("dependencies");
+        return this;
+    }
 }

@@ -17,16 +17,13 @@ public class CommandToolBox {
 
     public CommandToolBox(CommandArgs commandArgs) {
         this.commandArgs = commandArgs;
-        generateDependencyManagerAsync().whenComplete((result, throwable) ->
-                this.dependencyManager = result);
+        generateDependencyManagerAsync().whenComplete((result, throwable) -> this.dependencyManager = result);
         executorService.shutdown();
     }
 
     private CompletableFuture<DependencyManagerFile> generateDependencyManagerAsync() {
         CompletableFuture<DependencyManagerFile> future = new CompletableFuture<>();
-        executorService.submit(() ->
-                future.complete(DependencyManager.getDependencyManagerFile(currentDirPath))
-        );
+        executorService.submit(() -> future.complete(DependencyManager.getDependencyManagerFile(currentDirPath)));
         executorService.shutdown();
         return future;
     }

@@ -7,21 +7,23 @@ import io.github.seujorgenochurras.command.cli.utils.StringUtils;
 import static io.github.seujorgenochurras.command.register.CommandRegister.COMMANDS;
 
 public class CliHandler {
-   private CliHandler() {
-   }
-   public static void handleCliArguments(String... rawCliArgs) {
-      String cliArgsAsString = StringUtils.removeArraySyntaxFromRawStringArr(rawCliArgs);
-      String[] cliCommandSeparatedFromFlags = cliArgsAsString.split("-", 2);
+    private CliHandler() {
+    }
 
-      int commandNameIndex = 0;
-      int commandArgsIndex = 1;
+    public static void handleCliArguments(String... rawCliArgs) {
+        String cliArgsAsString = StringUtils.removeArraySyntaxFromRawStringArr(rawCliArgs);
+        String[] cliCommandSeparatedFromFlags = cliArgsAsString.split("-", 2);
 
-      String commandName = cliCommandSeparatedFromFlags[commandNameIndex].trim();
-      String commandFlags = cliCommandSeparatedFromFlags[commandArgsIndex].trim();
+        int commandNameIndex = 0;
+        int commandArgsIndex = 1;
 
-      ICommand command = COMMANDS.get(commandName);
+        String commandName = cliCommandSeparatedFromFlags[commandNameIndex].trim();
+        String commandFlags = cliCommandSeparatedFromFlags[commandArgsIndex].trim();
 
-      CommandToolBox toolBox = new CommandToolBox(command.flagFormatter().formatString(commandFlags));
-      command.invoke(toolBox);
-   }
+        ICommand command = COMMANDS.get(commandName);
+
+        CommandToolBox toolBox = new CommandToolBox(command.flagFormatter()
+            .formatString(commandFlags));
+        command.invoke(toolBox);
+    }
 }
